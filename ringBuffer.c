@@ -4,11 +4,8 @@
  *  Created on: May 23, 2022
  *      Author: Sadi
  */
-#include <stdint.h>
-#include <stddef.h>
-#include <stdlib.h>
-#include "ringBuffer.h"
 
+#include "ringBuffer.h"
 
 uint8_t ringBuffer_init(ringBuffer_t *rbuff,uint16_t lenght)
 {
@@ -54,6 +51,24 @@ uint8_t ringBuffer_get_offset(ringBuffer_t *rbuff,uint16_t index,int offset)
 	return result;
 }
 
+uint16_t ringBuffer_calc_offset(ringBuffer_t *rbuff,uint16_t index,int offset)
+{
+	uint16_t result = 0;
+	if ((index + offset) <= (rbuff->lenght-1))
+	{
+		result = index + offset;
+	}
+	else if ((index + offset) > (rbuff->lenght-1))
+	{
+		result = index + offset - rbuff->lenght;
+	}
+	else if ((index + offset) < 0)
+	{
+		result = rbuff->lenght + (index + offset);
+	}
+	return result;
+}
+
 void ringBuffer_add_rIndex(ringBuffer_t *rbuff,int count)
 {
 	if ((rbuff->rIndex + count) <= (rbuff->lenght-1))
@@ -92,4 +107,14 @@ uint16_t ringBuffer_exiting_bytes(ringBuffer_t *rbuff)
 void ringBuffer_reset_wIndex(ringBuffer_t *rbuff)
 {
 	rbuff->wIndex = 0;
+}
+
+void ringBuffer_copy(ringBuffer_t *rbuff, uint8_t *dest, uint16_t index,int count)
+{
+	int i = 0;
+
+	for (i = 0; i < count; i++)
+	{
+		dest[i] = ringBuffer_get_offset(rbuff,index,i);
+	}
 }
