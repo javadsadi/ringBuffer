@@ -27,6 +27,6 @@ uint16_t ringBuffer_calc_offset(ringBuffer_t *rbuff,uint16_t index,int offset);
 void ringBuffer_add_rIndex(ringBuffer_t *rbuff,int count);
 uint16_t ringBuffer_exiting_bytes(ringBuffer_t *rbuff);
 void ringBuffer_reset_wIndex(ringBuffer_t *rbuff);
-void ringBuffer_copy(ringBuffer_t *rbuff, uint8_t *dest, uint16_t index,int count);
+void ringBuffer_copy(ringBuffer_t *rbuff, uint8_t *dest,int lenght, uint16_t index,int count);
 
 #endif /* INC_RING_BUFFER_H_ */

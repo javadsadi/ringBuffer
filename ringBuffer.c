@@ -9,7 +9,7 @@
 
 uint8_t ringBuffer_init(ringBuffer_t *rbuff,uint16_t lenght)
 {
-	rbuff->buffer = (uint8_t*)malloc(sizeof(uint8_t*) * lenght);
+	rbuff->buffer = (uint8_t*)calloc(lenght,sizeof(uint8_t));
 	rbuff->lenght = lenght;
 	rbuff->rIndex = 0;
 	rbuff->wIndex = 0;
@@ -109,9 +109,12 @@ void ringBuffer_reset_wIndex(ringBuffer_t *rbuff)
 	rbuff->wIndex = 0;
 }
 
-void ringBuffer_copy(ringBuffer_t *rbuff, uint8_t *dest, uint16_t index,int count)
+void ringBuffer_copy(ringBuffer_t *rbuff, uint8_t *dest,int length, uint16_t index,int count)
 {
 	int i = 0;
+
+	if(count > length)
+		count = length;
 
 	for (i = 0; i < count; i++)
 	{
