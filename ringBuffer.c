@@ -88,19 +88,20 @@ void ringBuffer_add_rIndex(ringBuffer_t *rbuff,int count)
 uint16_t ringBuffer_exiting_bytes(ringBuffer_t *rbuff)
 {
 	uint16_t count=0;
-	if (rbuff->wIndex > rbuff->rIndex)
+	uint16_t writeIndex = rbuff->wIndex;
+	if (writeIndex > rbuff->rIndex)
 	{
-		count = rbuff->wIndex - rbuff->rIndex;
+		count = writeIndex - rbuff->rIndex;
 	}
-	else if (rbuff->wIndex < rbuff->rIndex)
+	else if (writeIndex < rbuff->rIndex)
 	{
-		count = (rbuff->lenght - rbuff->rIndex) + rbuff->wIndex;
+		count = (rbuff->lenght - rbuff->rIndex) + writeIndex;
 	}
-	else if (rbuff->wIndex == rbuff->rIndex)
+	else if (writeIndex == rbuff->rIndex)
 	{
 		count = 0;
 	}
-
+	
 	return count;
 }
 
